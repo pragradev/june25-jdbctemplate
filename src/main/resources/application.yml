@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: june25-library-backend
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+server:
+  port: 9092
