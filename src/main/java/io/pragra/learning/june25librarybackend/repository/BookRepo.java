@@ -1,12 +1,10 @@
 package io.pragra.learning.june25librarybackend.repository;
 
 import io.pragra.learning.june25librarybackend.constants.SQLConstants;
-import io.pragra.learning.june25librarybackend.dto.Book;
+import io.pragra.learning.june25librarybackend.dto.BookDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -20,18 +18,18 @@ public class BookRepo {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<Book> getAllBooks(){
+    public List<BookDTO> getAllBooks(){
 
-        RowMapper<Book> bookRowMapper = new RowMapper<Book>() {
+        RowMapper<BookDTO> bookRowMapper = new RowMapper<BookDTO>() {
             @Override
-            public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Book book = new Book();
-                book.setBookId(rs.getInt("BOOK_ID"));
-                book.setName(rs.getString("NAME"));
-                book.setIsbn(rs.getString("ISBN"));
-                book.setAuthor(rs.getString("AUTHOR"));
-                book.setLang(rs.getString("LANG"));
-                return book;
+            public BookDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+                BookDTO bookDTO = new BookDTO();
+                bookDTO.setBookId(rs.getInt("BOOK_ID"));
+                bookDTO.setName(rs.getString("NAME"));
+                bookDTO.setIsbn(rs.getString("ISBN"));
+                bookDTO.setAuthor(rs.getString("AUTHOR"));
+                bookDTO.setLang(rs.getString("LANG"));
+                return bookDTO;
             }
         };
 
@@ -40,12 +38,12 @@ public class BookRepo {
     }
 
 
-    public List<Book> getAllBooksByBeanRowMapper(){
+    public List<BookDTO> getAllBooksByBeanRowMapper(){
 
 
 
 
-        return jdbcTemplate.query(SQLConstants.BOOK_FETCH, new BeanPropertyRowMapper<>(Book.class));
+        return jdbcTemplate.query(SQLConstants.BOOK_FETCH, new BeanPropertyRowMapper<>(BookDTO.class));
     }
 
 }

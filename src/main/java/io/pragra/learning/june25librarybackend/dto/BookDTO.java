@@ -1,17 +1,16 @@
 package io.pragra.learning.june25librarybackend.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class Book {
+public class BookDTO {
     Integer bookId;
     String name;
     String isbn;
     String author;
     String lang;
 
-    public Book() {
+    public BookDTO() {
     }
 
     public Integer getBookId() {
@@ -54,7 +53,7 @@ public class Book {
         this.lang = lang;
     }
 
-    public Book(Integer bookId, String name, String isbn, String author, String lang) {
+    public BookDTO(Integer bookId, String name, String isbn, String author, String lang) {
         this.bookId = bookId;
         this.name = name;
         this.isbn = isbn;

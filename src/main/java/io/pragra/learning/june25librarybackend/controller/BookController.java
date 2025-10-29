@@ -1,6 +1,7 @@
 package io.pragra.learning.june25librarybackend.controller;
 
-import io.pragra.learning.june25librarybackend.dto.Book;
+import io.pragra.learning.june25librarybackend.dto.BookDTO;
+import io.pragra.learning.june25librarybackend.entities.Book;
 import io.pragra.learning.june25librarybackend.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,54 +11,61 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-@ResponseBody
+@RestController
 @RequestMapping("/book")
 public class BookController {
     @Autowired
     BookService bookService;
 
-    List<Book> books = new ArrayList<>();
 
     //@RequestMapping(method = RequestMethod.GET, path = "/hello")
-    @GetMapping("/hello")
-    public String helloController(){
-        return "Hello";
-    }
+//    @GetMapping("/hello")
+//    public String helloController(){
+//        return "Hello";
+//    }
+//
+//    @GetMapping("/get")
+//    public BookDTO getBook(){
+//        return new BookDTO(1,"Harry Potter","a8ywq87ysd8cysd76cta8d7fcsd8d7c","J.K.Rawling","English");
+//
+//    }
+//
+//    @GetMapping("/getByAuthor")
+//    public List<BookDTO> getBookByAuther(@RequestParam("auth") String author){
+//        List<BookDTO> bookDTOList = bookDTOS.stream().filter(bookDTO -> bookDTO.getAuthor().equals(author)).collect(Collectors.toList());
+//        return bookDTOList;
+//    }
 
-    @GetMapping("/get")
-    public Book getBook(){
-        return new Book(1,"Harry Potter","a8ywq87ysd8cysd76cta8d7fcsd8d7c","J.K.Rawling","English");
+//    @GetMapping("/getByAuthor/{authorDetails}")
+//    public List<BookDTO> getBookByAutherByPathVar(@PathVariable("authorDetails") String author){
+//        List<BookDTO> bookDTOList = bookDTOS.stream().filter(bookDTO -> bookDTO.getAuthor().equals(author)).collect(Collectors.toList());
+//        return bookDTOList;
+//    }
 
-    }
-
-    @GetMapping("/getByAuthor")
-    public List<Book> getBookByAuther(@RequestParam("auth") String author){
-        List<Book> bookList = books.stream().filter(book -> book.getAuthor().equals(author)).collect(Collectors.toList());
-        return bookList;
-    }
-
-    @GetMapping("/getByAuthor/{authorDetails}")
-    public List<Book> getBookByAutherByPathVar(@PathVariable("authorDetails") String author){
-        List<Book> bookList = books.stream().filter(book -> book.getAuthor().equals(author)).collect(Collectors.toList());
-        return bookList;
-    }
+//    @PostMapping("/addAll")
+//    public List<BookDTO> addBook(@RequestBody List<BookDTO> listOfBookDTOS){
+//        listOfBookDTOS.forEach(bookDTO -> bookDTOS.add(bookDTO));
+//        return bookDTOS;
+//    }
 
     @PostMapping("/addAll")
-    public List<Book> addBook(@RequestBody List<Book> listOfBooks){
-        listOfBooks.forEach(book -> books.add(book));
-        return books;
+    public List<Book> addAll(@RequestBody List<Book> books){
+        return bookService.addAll(books);
     }
 
     @PostMapping("/add")
-    public List<Book> addBook(@RequestBody Book book){
-        books.add(book);
-        return books;
+    public Book addBook(@RequestBody Book book){
+        return bookService.addBook(book);
     }
 
     @GetMapping("/getAll")
     public List<Book> getAll(){
         return bookService.getAllBooks();
+    }
+
+    @DeleteMapping("/delete")
+    public boolean deleteBook(Book book){
+        return bookService.deleteBook(book);
     }
 
 
