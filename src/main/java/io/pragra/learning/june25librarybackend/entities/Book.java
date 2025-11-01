@@ -2,6 +2,8 @@ package io.pragra.learning.june25librarybackend.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "LIBRARY_BOOK")
 public class Book {
@@ -16,6 +18,28 @@ public class Book {
     String author;
     @Column
     String lang;
+
+    @OneToOne
+    Rating rating;
+
+    @OneToMany
+    List<Review> reviews;
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
 
     public Book() {
     }

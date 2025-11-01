@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -66,6 +67,21 @@ public class BookController {
     @DeleteMapping("/delete")
     public boolean deleteBook(Book book){
         return bookService.deleteBook(book);
+    }
+
+    @PostMapping("/author")
+    public List<Book> getByAuthor(@RequestParam String author){
+        return bookService.getByAuthor(author);
+    }
+
+    // CAP -
+    @GetMapping("byId/{id}")
+    public Book getBookById(@PathVariable("id") Integer identifier){
+        Book book = new Book();
+        book.setBookId(31212);
+        book.setAuthor("asdasda");
+        book.setIsbn("343534423423453434");
+        return bookService.getBookByID(identifier).orElseGet(()-> book);
     }
 
 

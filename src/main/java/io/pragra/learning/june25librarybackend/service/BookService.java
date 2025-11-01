@@ -4,15 +4,22 @@ import io.pragra.learning.june25librarybackend.dto.BookDTO;
 import io.pragra.learning.june25librarybackend.entities.Book;
 import io.pragra.learning.june25librarybackend.repository.BookRepo;
 import io.pragra.learning.june25librarybackend.repository.BookRepository;
+import io.pragra.learning.june25librarybackend.repository.RatingRepo;
+import io.pragra.learning.june25librarybackend.repository.ReviewRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    RatingRepo ratingRepo;
+    @Autowired
+    ReviewRepo reviewRepo;
 
     // persist book
     public Book addBook(Book book){
@@ -30,8 +37,21 @@ public class BookService {
         return true;
     }
 
+    public Optional<Book> getBookByID(Integer id){
+        return bookRepository.findById(id);
+    }
+
+    public List<Book> getByAuthor(String author){
+        return bookRepository.booksByAuthorBySQL(author);
+    }
+
     public List<Book> addAll(List<Book> books){
-        return bookRepository.saveAll(books);
+        books.forEach(book -> {
+            reviewRepo.saveAll(book.getReviews());
+            ratingRepo.save(book.getRating());
+            bookRepository.save(book);
+        });
+        return books;
     }
 
 
