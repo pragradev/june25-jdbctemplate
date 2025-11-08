@@ -19,11 +19,27 @@ public class Book {
     @Column
     String lang;
 
-    @OneToOne
-    Rating rating;
+    String privateKey; // database
 
-    @OneToMany
-    List<Review> reviews;
+    @Transient
+    Integer constBook;
+
+    public Integer getConstBook() {
+        return constBook;
+    }
+
+    public void setConstBook(Integer constBook) {
+        this.constBook = constBook;
+    }
+    //    boolean delFG; // false, true
+//    Integer delFg; // 0 , 1
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    Rating rating;
+// merge -> merging sessions -  smarter approch
+// refresh -> fetches data if any other session has updated same data|  2 sessions - 1 session updated data
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    List<Review> reviews; // delete ,
 
     public List<Review> getReviews() {
         return reviews;

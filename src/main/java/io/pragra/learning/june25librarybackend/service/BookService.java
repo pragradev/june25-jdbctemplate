@@ -23,6 +23,13 @@ public class BookService {
 
     // persist book
     public Book addBook(Book book){
+        // newISBN() send to Pearson
+        // calculate newISBN and send to pearson
+        Integer constBook = book.getConstBook();
+        String isbn = book.getIsbn();
+        String newIsbn = isbn+constBook;
+        System.out.println("New ISBN = " + newIsbn);
+        // send new Isbn to Pearson
         return bookRepository.save(book);
     }
 
@@ -37,6 +44,11 @@ public class BookService {
         return true;
     }
 
+    public boolean deleteBookById(Integer id){
+        bookRepository.deleteById(id);
+        return true;
+    }
+
     public Optional<Book> getBookByID(Integer id){
         return bookRepository.findById(id);
     }
@@ -45,12 +57,17 @@ public class BookService {
         return bookRepository.booksByAuthorBySQL(author);
     }
 
+//    public List<Book> addAll(List<Book> books){
+//        books.forEach(book -> {
+//            reviewRepo.saveAll(book.getReviews());
+//            ratingRepo.save(book.getRating());
+//            bookRepository.save(book);
+//        });
+//        return books;
+//    }
+
     public List<Book> addAll(List<Book> books){
-        books.forEach(book -> {
-            reviewRepo.saveAll(book.getReviews());
-            ratingRepo.save(book.getRating());
-            bookRepository.save(book);
-        });
+        books.forEach(book -> bookRepository.save(book));
         return books;
     }
 

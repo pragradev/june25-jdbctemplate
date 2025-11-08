@@ -2,11 +2,15 @@ package io.pragra.learning.june25librarybackend.controller;
 
 import io.pragra.learning.june25librarybackend.dto.BookDTO;
 import io.pragra.learning.june25librarybackend.entities.Book;
+import io.pragra.learning.june25librarybackend.entities.Rating;
+import io.pragra.learning.june25librarybackend.entities.Review;
 import io.pragra.learning.june25librarybackend.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +21,8 @@ import java.util.stream.Collectors;
 public class BookController {
     @Autowired
     BookService bookService;
+
+    Integer constBook = 15;
 
 
     //@RequestMapping(method = RequestMethod.GET, path = "/hello")
@@ -56,6 +62,7 @@ public class BookController {
 
     @PostMapping("/add")
     public Book addBook(@RequestBody Book book){
+        book.setConstBook(constBook);
         return bookService.addBook(book);
     }
 
@@ -75,15 +82,19 @@ public class BookController {
     }
 
     // CAP -
-    @GetMapping("byId/{id}")
-    public Book getBookById(@PathVariable("id") Integer identifier){
+    @GetMapping(value = "byId/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Rating getBookById(@PathVariable("id") Integer identifier){
         Book book = new Book();
         book.setBookId(31212);
         book.setAuthor("asdasda");
         book.setIsbn("343534423423453434");
-        return bookService.getBookByID(identifier).orElseGet(()-> book);
+        Book fetchedBook = bookService.getBookByID(identifier).orElseGet(() -> book);
+        //List<Review> reviews = fetchedBook.getReviews();
+        return fetchedBook.getRating();
     }
 
-
-    // mvc
+    @DeleteMapping("byId/{id}")
+    public Boolean deleteById(@PathVariable Integer id){
+        return bookService.deleteBookById(id);
+    }
 }

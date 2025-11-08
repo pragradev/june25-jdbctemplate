@@ -1,6 +1,7 @@
 package io.pragra.learning.june25librarybackend.dto;
 
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 @Data
 public class BookDTO {
@@ -8,6 +9,7 @@ public class BookDTO {
     String name;
     String isbn;
     String author;
+    @Transient
     String lang;
 
     public BookDTO() {
